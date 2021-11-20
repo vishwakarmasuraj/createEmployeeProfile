@@ -88,4 +88,5 @@ const delEmployee = async (req, res) => {
         return errorHandler(res, constants.error)
     }
 }
-module.exports = { employeeCreate, employeeGet, employeeUpdate, delEmployee, searchRecordEmployee }
+
+module.exports = { employeeCreate, employeeGet, employeeUpdate, searchRecordEmployee, delEmployee }
