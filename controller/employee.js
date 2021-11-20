@@ -22,4 +22,24 @@ const employeeGet = async (req, res) => {
         return errorHandler(res, error)
     }
 }
-module.exports = { employeeCreate, employeeGet }
+
+const employeeUpdate = async (req, res) => {
+    try {
+        const id = req.params.id
+        const empUpdate = await employeeModel.findByIdAndUpdate({ _id: id }, { $set: req.body }).select(constants.IGN_PASS)
+        successHandler(res, constants.EMP_UPDATE_MSG, empUpdate)
+    } catch (error) {
+        return errorHandler(res, constants.error)
+    }
+}
+
+const delEmployee = async (req, res) => {
+    try {
+        const id = req.params.id
+        const empDel = await employeeModel.findByIdAndRemove({ _id: id })
+        successHandler(res, constants.EMP_DEL_MSG, empDel)
+    } catch (error) {
+        return errorHandler(res, constants.error)
+    }
+}
+module.exports = { employeeCreate, employeeGet, employeeUpdate, delEmployee }

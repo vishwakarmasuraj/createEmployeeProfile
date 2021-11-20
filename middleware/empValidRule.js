@@ -22,12 +22,7 @@ const employeeValidateRule = () => {
                     }
                 })
             }),
-        body('password').notEmpty().isStrongPassword({
-            minLength: 6,
-            minLowercase: 1,
-            minUppercase: 1,
-            minNumbers: 1
-        }).withMessage("Password must be min 6 and contain at least one uppercase letter, one lowercase letter, and one number"),
+        body('password').notEmpty().isLength({ min: 6 }),
         body('mobile').notEmpty().isLength({ min: 10, max: 10 }),
         body('address').notEmpty(),
         body('status').notEmpty()
