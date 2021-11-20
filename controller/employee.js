@@ -3,6 +3,13 @@ const { successHandler, errorHandler } = require('../helper/responseHandler');
 const constants = require('../constant/allConstant');
 const bcrypt = require('bcrypt');
 
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+
 const employeeCreate = async (req, res) => {
     try {
         req.body.password = await bcrypt.hash(req.body.password, constants.ROUND)
@@ -14,6 +21,13 @@ const employeeCreate = async (req, res) => {
     }
 }
 
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+
 const employeeGet = async (req, res) => {
     try {
         const result = await employeeModel.find({}).select(constants.IGN_PASS);
@@ -22,6 +36,31 @@ const employeeGet = async (req, res) => {
         return errorHandler(res, error)
     }
 }
+
+const searchRecordEmployee = async (req, res) => {
+    try {
+        const { search = '' } = req.query
+        const result = await employeeModel.find({
+            $or: [
+                { $or: [{ name: { $regex: `${ search }`, $options: 'i' } }] },
+                { $or: [{ lastName: { $regex: `${ search }`, $options: 'i' } }] },
+                { $or: [{ designation: { $regex: `${ search }`, $options: 'i' } }] },
+                { $or: [{ email: { $regex: `${ search }`, $options: 'i' } }] },
+                { $or: [{ status: { $regex: `${ search }`, $options: 'i' } }] }
+            ]
+        })
+        successHandler(res, constants.EMP_SEARCH_MSG, result)
+    } catch (error) {
+        return errorHandler(res, error)
+    }
+}
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 
 const employeeUpdate = async (req, res) => {
     try {
@@ -33,6 +72,13 @@ const employeeUpdate = async (req, res) => {
     }
 }
 
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+
 const delEmployee = async (req, res) => {
     try {
         const id = req.params.id
@@ -42,4 +88,4 @@ const delEmployee = async (req, res) => {
         return errorHandler(res, constants.error)
     }
 }
-module.exports = { employeeCreate, employeeGet, employeeUpdate, delEmployee }
+module.exports = { employeeCreate, employeeGet, employeeUpdate, delEmployee, searchRecordEmployee }

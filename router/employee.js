@@ -15,6 +15,8 @@ router.post('/employee-create', empValidateRule.employeeValidateRule(), valid.va
 
 router.get('/get-employee', empController.employeeGet)
 
+router.get('/search-record', empController.searchRecordEmployee)
+
 router.put('/update-employee/:id', empController.employeeUpdate)
 
 router.delete('/delete-employee/:id', empController.delEmployee)

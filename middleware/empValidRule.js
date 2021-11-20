@@ -23,7 +23,7 @@ const employeeValidateRule = () => {
                 })
             }),
         body('password').notEmpty().isLength({ min: 6 }),
-        body('mobile').notEmpty().isLength({ min: 10, max: 10 }),
+        body('mobile').notEmpty().isLength({ min: 10, max: 10 }).withMessage('mobile number should be 10 digits'),
         body('address').notEmpty(),
         body('status').notEmpty()
     ]
